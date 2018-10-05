@@ -8,8 +8,10 @@
 
 ## Installation
 
-``` sh
-ln --symbolic $PWD/rc $XDG_CONFIG_HOME/kak/autoload/edit-directory
+### [Pathogen]
+
+``` kak
+pathogen-infect /home/user/repositories/github.com/alexherbo2/edit-directory.kak
 ```
 
 ## Usage
@@ -56,6 +58,7 @@ Similar extensions:
 [Usage]: #usage
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
+[Pathogen]: https://github.com/alexherbo2/pathogen.kak
 [TeddyDD]: https://github.com/TeddyDD
 [kakoune-edit-or-dir]: https://github.com/TeddyDD/kakoune-edit-or-dir
 [occivink]: https://github.com/occivink
