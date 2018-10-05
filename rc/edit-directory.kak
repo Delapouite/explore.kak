@@ -34,7 +34,9 @@ define-command -hidden edit-directory-forward %{
           echo fail
         }
       }
-      edit "%opt(edit_directory)/%reg(.)"
+      evaluate-commands -draft %{
+        edit "%opt(edit_directory)/%reg(.)"
+      }
     }
   }
   execute-keys '<space>;<a-x>_'
