@@ -19,7 +19,7 @@ define-command -hidden edit-directory -params 1 %{
   execute-keys "%%d<a-!>cd %arg(1); %opt(edit_directory_command)<ret>d"
   evaluate-commands %sh{
     test $kak_opt_edit_directory_show_hidden = false && {
-      echo "try %[execute-keys -draft '%<a-s><a-k>^[.]|/[.]<ret>d']"
+      echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
   echo %sh(realpath "$1")
