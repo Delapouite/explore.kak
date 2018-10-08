@@ -14,7 +14,7 @@ add-highlighter shared/directory/content/directories regex '^.+/$' 0:EditDirecto
 
 define-command -hidden edit-directory -params 1 %{
   edit -scratch %sh(realpath "$1")
-  set-option window filetype directory
+  set-option buffer filetype directory
   execute-keys "%%d<a-!>cd %arg(1); %opt(edit_directory_command)<ret>d"
   evaluate-commands %sh{
     test $kak_opt_edit_directory_show_hidden = false && {
@@ -28,16 +28,11 @@ define-command -hidden edit-directory-forward %{
   execute-keys '<a-s>'
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
-    try %{
-      evaluate-commands %sh{
-        test -f "$kak_opt_edit_directory/$kak_main_reg_dot" || {
-          echo fail
-        }
-      }
-      evaluate-commands -draft %{
-        edit "%opt(edit_directory)/%reg(.)"
-      }
-    }
+    evaluate-commands -draft %sh{
+      test -d "$kak_opt_edit_directory/$kak_main_reg_dot" &&
+        echo edit-directory ||
+        echo edit
+    } "%opt(edit_directory)/%reg(.)"
   }
   execute-keys '<space>;<a-x>_'
   evaluate-commands %sh{
