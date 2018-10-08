@@ -29,23 +29,23 @@ define-command -hidden edit-directory-forward %{
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
     evaluate-commands -draft %sh{
-      test -d "$kak_opt_edit_directory/$kak_main_reg_dot" &&
+      test -d "$kak_bufname/$kak_main_reg_dot" &&
         echo edit-directory ||
         echo edit
-    } "%opt(edit_directory)/%reg(.)"
+    } "%val(bufname)/%reg(.)"
   }
   execute-keys '<space>;<a-x>_'
   evaluate-commands %sh{
-    test -d "$kak_opt_edit_directory/$kak_main_reg_dot" &&
+    test -d "$kak_bufname/$kak_main_reg_dot" &&
       echo edit-directory ||
       echo edit
-  } "%opt(edit_directory)/%reg(.)"
+  } "%val(bufname)/%reg(.)"
   delete-buffer %opt(edit_directory)
 }
 
 define-command -hidden edit-directory-back %{
   set-option current edit_directory %val(bufname)
-  edit-directory "%opt(edit_directory)/.."
+  edit-directory "%val(bufname)/.."
   delete-buffer %opt(edit_directory)
 }
 
@@ -68,7 +68,7 @@ define-command edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
       echo yes
     fi
   }
-  edit-directory %opt(edit_directory)
+  edit-directory %val(bufname)
 }
 
 define-command edit-directory-enable -docstring 'Enable editing directories' %{
