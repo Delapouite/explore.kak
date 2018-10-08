@@ -46,6 +46,8 @@ define-command -hidden edit-directory-forward %{
 define-command -hidden edit-directory-back %{
   set-option current edit_directory %val(bufname)
   edit-directory "%val(bufname)/.."
+  set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
+  execute-keys n
   delete-buffer %opt(edit_directory)
 }
 
