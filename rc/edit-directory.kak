@@ -25,6 +25,7 @@ define-command -hidden edit-directory -params 1 %{
 
 define-command -hidden edit-directory-forward %{
   set-option current edit_directory %val(bufname)
+  execute-keys '<a-s>'
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
     try %{
