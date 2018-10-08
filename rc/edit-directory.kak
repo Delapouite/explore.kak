@@ -56,6 +56,7 @@ hook global WinSetOption filetype=directory %{
   map window normal <ret> ':<space>edit-directory-forward<ret>'
   map window normal <backspace> ':<space>edit-directory-back<ret>'
   map window normal . ':<space>edit-directory-toggle-hidden<ret>'
+  map window normal <esc> ':<space>delete-buffer<ret>'
 }
 
 hook global WinSetOption filetype=(?!directory).* %{
