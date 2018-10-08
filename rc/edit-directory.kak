@@ -13,19 +13,18 @@ add-highlighter shared/directory/content/files regex '^.+$' 0:EditDirectoryFiles
 add-highlighter shared/directory/content/directories regex '^.+/$' 0:EditDirectoryDirectories
 
 define-command -hidden edit-directory -params 1 %{
-  edit -scratch *directory*
+  edit -scratch %sh(realpath "$1")
   set-option window filetype directory
-  set-option window edit_directory %sh(realpath "$1")
   execute-keys "%%d<a-!>cd %arg(1); %opt(edit_directory_command)<ret>d"
   evaluate-commands %sh{
     test $kak_opt_edit_directory_show_hidden = false && {
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
-  echo %sh(realpath "$1")
 }
 
 define-command -hidden edit-directory-forward %{
+  set-option current edit_directory %val(bufname)
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
     try %{
@@ -45,10 +44,13 @@ define-command -hidden edit-directory-forward %{
       echo edit-directory ||
       echo edit
   } "%opt(edit_directory)/%reg(.)"
+  delete-buffer %opt(edit_directory)
 }
 
 define-command -hidden edit-directory-back %{
+  set-option current edit_directory %val(bufname)
   edit-directory "%opt(edit_directory)/.."
+  delete-buffer %opt(edit_directory)
 }
 
 hook global WinSetOption filetype=directory %{
