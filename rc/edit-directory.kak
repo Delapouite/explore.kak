@@ -1,4 +1,5 @@
 declare-option -docstring 'Shell command run to show directory entries' str edit_directory_command 'ls --almost-all --dereference --group-directories-first --indicator-style=slash'
+declare-option -docstring 'Shell command run to show directory entries recursively' str edit_directory_command_recursive 'find'
 declare-option -docstring 'Whether to show hidden files' bool edit_directory_show_hidden no
 declare-option -docstring 'Whether extension is active' bool edit_directory_enabled no
 
@@ -16,6 +17,15 @@ define-command -hidden edit-directory -params 1 %{
   edit -scratch %sh(realpath "$1")
   set-option buffer filetype directory
   execute-keys "%%d<a-!>cd %arg(1); %opt(edit_directory_command)<ret>d"
+  evaluate-commands %sh{
+    test $kak_opt_edit_directory_show_hidden = false && {
+      echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
+    }
+  }
+}
+
+define-command -hidden edit-directory-recursive %{
+  execute-keys "%%d<a-!>cd %val(bufname); %opt(edit_directory_command_recursive)<ret>d"
   evaluate-commands %sh{
     test $kak_opt_edit_directory_show_hidden = false && {
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
@@ -61,6 +71,7 @@ hook global WinSetOption filetype=directory %{
   map window normal <ret> ':<space>edit-directory-forward<ret>'
   map window normal <backspace> ':<space>edit-directory-back<ret>'
   map window normal . ':<space>edit-directory-toggle-hidden<ret>'
+  map window normal R ':<space>edit-directory-recursive<ret>'
   map window normal q ':<space>edit-directory-change-directory<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
 }
