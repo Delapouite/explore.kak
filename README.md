@@ -27,6 +27,7 @@ Then edit a directory.
 - Use <kbd>Return</kbd> to edit files (works with multiple selections).
 - Use <kbd>Backspace</kbd> to edit parent directory.
 - Use <kbd>.</kbd> to show hidden files.
+- Use <kbd>q</kbd> to change directory and quit.
 - Use <kbd>Escape</kbd> to close buffer.
 
 ## Commands
