@@ -39,8 +39,6 @@ Then edit a directory.
 
 ## Options
 
-- `edit_directory_command` `str`: Shell command run to show directory entries (Default: `ls --almost-all --dereference --group-directories-first --indicator-style=slash`)
-- `edit_directory_command_recursive` `str`: Shell command run to show directory entries recursively (Default: `find`)
 - `edit_directory_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
 - `edit_directory_enabled` `bool`: Whether extension is active (Read-only)
 

@@ -1,9 +1,9 @@
-declare-option -docstring 'Shell command run to show directory entries' str edit_directory_command 'ls --almost-all --dereference --group-directories-first --indicator-style=slash'
-declare-option -docstring 'Shell command run to show directory entries recursively' str edit_directory_command_recursive 'find'
 declare-option -docstring 'Whether to show hidden files' bool edit_directory_show_hidden no
 declare-option -docstring 'Whether extension is active' bool edit_directory_enabled no
 
 declare-option -hidden str edit_directory
+declare-option -hidden -docstring 'Shell command run to show directory entries' str edit_directory_command 'ls --almost-all --dereference --group-directories-first --indicator-style=slash'
+declare-option -hidden -docstring 'Shell command run to show directory entries recursively' str edit_directory_command_recursive 'find'
 
 set-face global EditDirectoryFiles 'magenta,default'
 set-face global EditDirectoryDirectories 'cyan,default'
