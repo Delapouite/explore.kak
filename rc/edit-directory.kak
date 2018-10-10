@@ -90,7 +90,7 @@ hook global WinSetOption filetype=(?!directory).* %{
   remove-highlighter window/directory
 }
 
-define-command edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
+define-command -hidden edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
   set-option window edit_directory_show_hidden %sh{
     if test $kak_opt_edit_directory_show_hidden = true; then
       echo no
