@@ -2,6 +2,7 @@ declare-option -docstring 'Whether to show hidden files' bool edit_directory_sho
 declare-option -docstring 'Whether extension is active' bool edit_directory_enabled no
 
 declare-option -hidden str edit_directory
+declare-option -hidden int edit_directory_file_count
 declare-option -hidden -docstring 'Shell command run to show directory entries' str edit_directory_command 'ls --almost-all --dereference --group-directories-first --indicator-style=slash'
 declare-option -hidden -docstring 'Shell command run to show directory entries recursively' str edit_directory_command_recursive 'find'
 
@@ -22,6 +23,7 @@ define-command -hidden edit-directory -params 1 %{
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
+  info "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-recursive %{
@@ -31,11 +33,13 @@ define-command -hidden edit-directory-recursive %{
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
+  info "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
 define-command -hidden edit-directory-forward %{
   set-option current edit_directory %val(bufname)
   execute-keys '<a-s>'
+  set-option current edit_directory_file_count %sh(count() { echo $#; }; count $kak_selections_desc)
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
     evaluate-commands -draft %sh{
@@ -51,6 +55,11 @@ define-command -hidden edit-directory-forward %{
       echo edit
   } "%val(bufname)/%reg(.)"
   delete-buffer %opt(edit_directory)
+  evaluate-commands %sh{
+    count=$kak_opt_edit_directory_file_count
+    test $count -gt 1 &&
+      echo "info %[$count files opened]"
+  }
 }
 
 define-command -hidden edit-directory-back %{
@@ -59,6 +68,7 @@ define-command -hidden edit-directory-back %{
   set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
   execute-keys n
   delete-buffer %opt(edit_directory)
+  info "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-change-directory %{
