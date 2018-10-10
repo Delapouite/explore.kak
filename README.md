@@ -6,6 +6,8 @@
 
 > A file explorer for [Kakoune].
 
+![Demo]
+
 ## Installation
 
 ### [Pathogen]
@@ -57,6 +59,7 @@ Similar extensions:
 [Kakoune]: http://kakoune.org
 [IRC]: https://webchat.freenode.net?channels=kakoune
 [IRC Badge]: https://img.shields.io/badge/IRC-%23kakoune-blue.svg
+[Demo]: images/demo.gif
 [Usage]: #usage
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
