@@ -23,7 +23,7 @@ define-command -hidden edit-directory -params 1 %{
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
-  info "Showing %sh(basename ""$kak_bufname"")/ entries"
+  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-recursive %{
@@ -33,7 +33,7 @@ define-command -hidden edit-directory-recursive %{
       echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
     }
   }
-  info "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
+  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
 define-command -hidden edit-directory-forward %{
@@ -58,7 +58,7 @@ define-command -hidden edit-directory-forward %{
   evaluate-commands %sh{
     count=$kak_opt_edit_directory_file_count
     test $count -gt 1 &&
-      echo "info %[$count files opened]"
+      echo "info -title Directory %[$count files opened]"
   }
 }
 
@@ -68,7 +68,7 @@ define-command -hidden edit-directory-back %{
   set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
   execute-keys n
   delete-buffer %opt(edit_directory)
-  info "Showing %sh(basename ""$kak_bufname"")/ entries"
+  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-change-directory %{
