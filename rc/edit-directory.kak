@@ -76,6 +76,17 @@ define-command -hidden edit-directory-change-directory %{
   delete-buffer
 }
 
+define-command -hidden edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
+  set-option window edit_directory_show_hidden %sh{
+    if test $kak_opt_edit_directory_show_hidden = true; then
+      echo no
+    else
+      echo yes
+    fi
+  }
+  edit-directory %val(bufname)
+}
+
 hook global WinSetOption filetype=directory %{
   add-highlighter window/ ref directory
   map window normal <ret> ':<space>edit-directory-forward<ret>'
@@ -88,17 +99,6 @@ hook global WinSetOption filetype=directory %{
 
 hook global WinSetOption filetype=(?!directory).* %{
   remove-highlighter window/directory
-}
-
-define-command -hidden edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
-  set-option window edit_directory_show_hidden %sh{
-    if test $kak_opt_edit_directory_show_hidden = true; then
-      echo no
-    else
-      echo yes
-    fi
-  }
-  edit-directory %val(bufname)
 }
 
 define-command edit-directory-enable -docstring 'Enable editing directories' %{
