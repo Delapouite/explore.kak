@@ -80,7 +80,7 @@ define-command -hidden edit-directory-change-directory %{
 }
 
 define-command -hidden edit-directory-toggle-hidden -docstring 'Toggle hidden files' %{
-  set-option window edit_directory_show_hidden %sh{
+  set-option current edit_directory_show_hidden %sh{
     if test $kak_opt_edit_directory_show_hidden = true; then
       echo no
     else
