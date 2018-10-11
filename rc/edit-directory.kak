@@ -35,12 +35,12 @@ define-command -hidden edit-directory-smart -params 0..1 %{ evaluate-commands %s
 
 define-command -hidden edit-directory -params 0..1 %{
   edit-directory-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)" %arg(1)
-  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
+  echo -markup {Information} "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-recursive -params 0..1 %{
   edit-directory-display "find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")" %arg(1)
-  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
+  echo -markup {Information} "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
 define-command -hidden edit-directory-forward %{
@@ -54,7 +54,7 @@ define-command -hidden edit-directory-forward %{
   evaluate-commands %sh{
     count=$kak_opt_edit_directory_file_count
     test $count -gt 1 &&
-      echo "info -title Directory %[$count files opened]"
+      echo "echo -markup {Information} %[$count files opened]"
   }
 }
 
@@ -64,7 +64,7 @@ define-command -hidden edit-directory-back %{
   edit-directory "%opt(edit_directory)/.."
   set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
   hook -once window NormalIdle '' %(execute-keys n)
-  info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
+  echo -markup {Information} "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-change-directory %{
