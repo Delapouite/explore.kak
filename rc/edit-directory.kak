@@ -3,8 +3,6 @@ declare-option -docstring 'Whether extension is active' bool edit_directory_enab
 
 declare-option -hidden str edit_directory
 declare-option -hidden int edit_directory_file_count
-declare-option -hidden -docstring 'Shell command run to show directory entries' str edit_directory_command 'ls --almost-all --dereference --group-directories-first --indicator-style=slash'
-declare-option -hidden -docstring 'Shell command run to show directory entries recursively' str edit_directory_command_recursive 'find'
 
 set-face global EditDirectoryFiles 'magenta,default'
 set-face global EditDirectoryDirectories 'cyan,default'
@@ -32,22 +30,12 @@ define-command -hidden edit-directory-display -params 2 %{ evaluate-commands %sh
 define-command -hidden edit-directory -params 1 %{
   edit -scratch %sh(realpath "$1")
   set-option buffer filetype directory
-  execute-keys "%%d<a-!>cd %arg(1); %opt(edit_directory_command)<ret>d"
-  evaluate-commands %sh{
-    test $kak_opt_edit_directory_show_hidden = false && {
-      echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
-    }
-  }
+  execute-keys "%%d<a-!>cd %arg(1); ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)<ret>d"
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-recursive %{
-  execute-keys "%%d<a-!>cd %val(bufname); %opt(edit_directory_command_recursive)<ret>d"
-  evaluate-commands %sh{
-    test $kak_opt_edit_directory_show_hidden = false && {
-      echo "try %[execute-keys -draft '%<a-s><a-k>^[.][^/]|/[.]<ret>d']"
-    }
-  }
+  execute-keys "%%d<a-!>cd %val(bufname); find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")<ret>d"
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
