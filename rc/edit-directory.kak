@@ -25,9 +25,11 @@ define-command -hidden edit-directory-display -params 1..2 %{ evaluate-commands 
   echo "
     edit -fifo %($fifo) %($path)
     set-option buffer filetype directory
-    set-register / %(\b\Q$last_buffer_name\E\b)
     hook -once window NormalIdle '' %{
-      try %(execute-keys n)
+      evaluate-commands -save-regs / %{
+        set-register / %(\b\Q$last_buffer_name\E\b)
+        try %(execute-keys n)
+      }
       echo -markup {Information} %(Showing $name/ entries)
     }
     hook -always -once buffer BufCloseFifo '' %(nop %sh(rm --recursive $out))
