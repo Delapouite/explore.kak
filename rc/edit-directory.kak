@@ -21,7 +21,7 @@ define-command -hidden edit-directory-display -params 1..2 %{ evaluate-commands 
   last_buffer_name=$(basename "$kak_bufname")
   mkfifo $fifo
   cd "$path"
-  ($command > $fifo) < /dev/null > /dev/null 2>&1 &
+  (eval "$command" > $fifo) < /dev/null > /dev/null 2>&1 &
   echo "
     edit -fifo %($fifo) %($path)
     set-option buffer filetype directory
