@@ -27,6 +27,12 @@ define-command -hidden edit-directory-display -params 1..2 %{ evaluate-commands 
   "
 }}
 
+define-command -hidden edit-directory-smart -params 0..1 %{ evaluate-commands %sh{
+  file=${1:-.}
+  edit=$(test -d "$file" && echo edit-directory || echo edit)
+  echo "$edit %($file)"
+}}
+
 define-command -hidden edit-directory -params 0..1 %{
   edit-directory-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)" %arg(1)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
@@ -43,18 +49,10 @@ define-command -hidden edit-directory-forward %{
   set-option current edit_directory_file_count %sh(count() { echo $#; }; count $kak_selections_desc)
   evaluate-commands -draft -itersel %{
     execute-keys ';<a-x>_'
-    evaluate-commands -draft %sh{
-      test -d "$kak_bufname/$kak_main_reg_dot" &&
-        echo edit-directory ||
-        echo edit
-    } "%val(bufname)/%reg(.)"
+    evaluate-commands -draft edit-directory-smart "%val(bufname)/%reg(.)"
   }
   execute-keys '<space>;<a-x>_'
-  evaluate-commands %sh{
-    test -d "$kak_bufname/$kak_main_reg_dot" &&
-      echo edit-directory ||
-      echo edit
-  } "%val(bufname)/%reg(.)"
+  evaluate-commands edit-directory-smart "%val(bufname)/%reg(.)"
   delete-buffer %opt(edit_directory)
   evaluate-commands %sh{
     count=$kak_opt_edit_directory_file_count
@@ -107,12 +105,7 @@ define-command edit-directory-enable -docstring 'Enable editing directories' %{
     edit-directory %val(hook_param_capture_1)
   }
   hook window -group edit-directory RuntimeError 'unable to find file ''(.+)''' %{
-    evaluate-commands %sh{
-      test -d "$kak_hook_param_capture_1" || {
-        echo fail Not a directory
-      }
-    }
-    edit-directory %val(hook_param_capture_1)
+    edit-directory-smart %val(hook_param_capture_1)
   }
   set-option window edit_directory_enabled yes
 }
