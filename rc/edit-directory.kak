@@ -17,12 +17,15 @@ define-command -hidden edit-directory-display -params 1..2 %{ evaluate-commands 
   path=$(realpath "${2:-.}")
   out=$(mktemp --directory)
   fifo=$out/fifo
+  last_buffer_name=$(basename "$kak_bufname")
   mkfifo $fifo
   cd "$path"
   ($command > $fifo) < /dev/null > /dev/null 2>&1 &
   echo "
     edit -fifo %($fifo) %($path)
     set-option buffer filetype directory
+    set-register / %(\b\Q$last_buffer_name\E\b)
+    hook -once window NormalIdle '' %(try %(execute-keys n))
     hook -always -once buffer BufCloseFifo '' %(nop %sh(rm --recursive $out))
   "
 }}
@@ -60,10 +63,8 @@ define-command -hidden edit-directory-forward %{
 
 define-command -hidden edit-directory-back %{
   set-option current edit_directory %val(bufname)
-  delete-buffer
   edit-directory "%opt(edit_directory)/.."
-  set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
-  hook -once window NormalIdle '' %(execute-keys n)
+  delete-buffer %opt(edit_directory)
   echo -markup {Information} "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
