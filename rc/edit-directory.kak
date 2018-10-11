@@ -104,9 +104,13 @@ hook global WinSetOption filetype=(?!directory).* %{
 
 define-command edit-directory-enable -docstring 'Enable editing directories' %{
   hook window -group edit-directory RuntimeError '\d+:\d+: ''\w+'' (.+): is a directory' %{
+    # Hide error message
+    echo
     edit-directory %val(hook_param_capture_1)
   }
   hook window -group edit-directory RuntimeError 'unable to find file ''(.+)''' %{
+    # Hide error message
+    echo
     edit-directory-smart %val(hook_param_capture_1)
   }
   set-option window edit_directory_enabled yes
