@@ -14,6 +14,21 @@ add-highlighter shared/directory/content default-region group
 add-highlighter shared/directory/content/files regex '^.+$' 0:EditDirectoryFiles
 add-highlighter shared/directory/content/directories regex '^.+/$' 0:EditDirectoryDirectories
 
+define-command -hidden edit-directory-display -params 2 %{ evaluate-commands %sh{
+  command=$1
+  path=$(realpath "$2")
+  out=$(mktemp --directory)
+  fifo=$out/fifo
+  mkfifo $fifo
+  cd "$path"
+  ($command > $fifo) < /dev/null > /dev/null 2>&1 &
+  echo "
+    edit -fifo %($fifo) %($path)
+    set-option buffer filetype directory
+    hook -always -once buffer BufCloseFifo '' %(nop %sh(rm --recursive $out))
+  "
+}}
+
 define-command -hidden edit-directory -params 1 %{
   edit -scratch %sh(realpath "$1")
   set-option buffer filetype directory
