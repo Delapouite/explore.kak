@@ -12,9 +12,9 @@ add-highlighter shared/directory/content default-region group
 add-highlighter shared/directory/content/files regex '^.+$' 0:EditDirectoryFiles
 add-highlighter shared/directory/content/directories regex '^.+/$' 0:EditDirectoryDirectories
 
-define-command -hidden edit-directory-display -params 2 %{ evaluate-commands %sh{
+define-command -hidden edit-directory-display -params 1..2 %{ evaluate-commands %sh{
   command=$1
-  path=$(realpath "$2")
+  path=$(realpath "${2:-.}")
   out=$(mktemp --directory)
   fifo=$out/fifo
   mkfifo $fifo
@@ -27,13 +27,13 @@ define-command -hidden edit-directory-display -params 2 %{ evaluate-commands %sh
   "
 }}
 
-define-command -hidden edit-directory -params 1 %{
+define-command -hidden edit-directory -params 0..1 %{
   edit-directory-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)" %arg(1)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
-define-command -hidden edit-directory-recursive %{
-  edit-directory-display "find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")" %val(bufname)
+define-command -hidden edit-directory-recursive -params 0..1 %{
+  edit-directory-display "find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")" %arg(1)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
@@ -93,7 +93,7 @@ hook global WinSetOption filetype=directory %{
   map window normal <ret> ':<space>edit-directory-forward<ret>'
   map window normal <backspace> ':<space>edit-directory-back<ret>'
   map window normal . ':<space>edit-directory-toggle-hidden<ret>'
-  map window normal R ':<space>edit-directory-recursive<ret>'
+  map window normal R ':<space>edit-directory-recursive %val(bufname)<ret>'
   map window normal q ':<space>edit-directory-change-directory<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
 }
