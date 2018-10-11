@@ -42,15 +42,15 @@ define-command -hidden edit-directory-smart -params 0..1 %{ evaluate-commands %s
   echo "$edit %($file)"
 }}
 
-define-command -hidden edit-directory -params 0..1 %{
+define-command -hidden edit-directory -params 0..1 -docstring 'Edit directory entries' %{
   edit-directory-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)" %arg(1)
 }
 
-define-command -hidden edit-directory-recursive -params 0..1 %{
+define-command -hidden edit-directory-recursive -params 0..1 -docstring 'Edit directory entries recursively' %{
   edit-directory-display "find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")" %arg(1)
 }
 
-define-command -hidden edit-directory-forward %{
+define-command -hidden edit-directory-forward -docstring 'Edit selected files' %{
   set-option current edit_directory %val(bufname)
   execute-keys '<a-s>;<a-x>_'
   set-option current edit_directory_file_count %sh(count() { echo $#; }; count $kak_selections_desc)
@@ -65,14 +65,14 @@ define-command -hidden edit-directory-forward %{
   }
 }
 
-define-command -hidden edit-directory-back %{
+define-command -hidden edit-directory-back -docstring 'Edit parent directory' %{
   set-option current edit_directory %val(bufname)
   edit-directory "%opt(edit_directory)/.."
   delete-buffer %opt(edit_directory)
   echo -markup {Information} "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
-define-command -hidden edit-directory-change-directory %{
+define-command -hidden edit-directory-change-directory -docstring 'Change directory and quit' %{
   change-directory %val(bufname)
   delete-buffer
 }
