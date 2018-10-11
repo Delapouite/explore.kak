@@ -45,14 +45,11 @@ define-command -hidden edit-directory-recursive -params 0..1 %{
 
 define-command -hidden edit-directory-forward %{
   set-option current edit_directory %val(bufname)
-  execute-keys '<a-s>'
+  execute-keys '<a-s>;<a-x>_'
   set-option current edit_directory_file_count %sh(count() { echo $#; }; count $kak_selections_desc)
   evaluate-commands -draft -itersel %{
-    execute-keys ';<a-x>_'
-    evaluate-commands -draft edit-directory-smart "%val(bufname)/%reg(.)"
+    evaluate-commands -client %val(client) edit-directory-smart "%val(bufname)/%reg(.)"
   }
-  execute-keys '<space>;<a-x>_'
-  evaluate-commands edit-directory-smart "%val(bufname)/%reg(.)"
   delete-buffer %opt(edit_directory)
   evaluate-commands %sh{
     count=$kak_opt_edit_directory_file_count
@@ -63,10 +60,10 @@ define-command -hidden edit-directory-forward %{
 
 define-command -hidden edit-directory-back %{
   set-option current edit_directory %val(bufname)
-  edit-directory "%val(bufname)/.."
+  delete-buffer
+  edit-directory "%opt(edit_directory)/.."
   set-register / "\b\Q%sh(basename ""$kak_opt_edit_directory"")\E\b"
   hook -once window NormalIdle '' %(execute-keys n)
-  delete-buffer %opt(edit_directory)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
