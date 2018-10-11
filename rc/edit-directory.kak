@@ -28,14 +28,12 @@ define-command -hidden edit-directory-display -params 2 %{ evaluate-commands %sh
 }}
 
 define-command -hidden edit-directory -params 1 %{
-  edit -scratch %sh(realpath "$1")
-  set-option buffer filetype directory
-  execute-keys "%%d<a-!>cd %arg(1); ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)<ret>d"
+  edit-directory-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_edit_directory_show_hidden = true && echo --almost-all)" %arg(1)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries"
 }
 
 define-command -hidden edit-directory-recursive %{
-  execute-keys "%%d<a-!>cd %val(bufname); find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")<ret>d"
+  edit-directory-display "find %sh(test $kak_opt_edit_directory_show_hidden = false && echo -not -path ""'*/.*'"")" %val(bufname)
   info -title Directory "Showing %sh(basename ""$kak_bufname"")/ entries recursively"
 }
 
