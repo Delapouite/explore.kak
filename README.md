@@ -33,6 +33,18 @@ Then edit a directory.
 - Use <kbd>q</kbd> to change directory and quit.
 - Use <kbd>Escape</kbd> to close buffer.
 
+## Configuration
+
+``` kak
+define-command -hidden edit-directory-rg -params 0..1 %{
+  edit-directory-display 'rg --files' %arg(1)
+}
+
+hook global WinSetOption filetype=directory %{
+  map window normal R ':<space>edit-directory-rg %val(bufname)<ret>'
+}
+```
+
 ## Commands
 
 - `edit-directory-enable`: Enable editing directories
