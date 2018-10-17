@@ -39,7 +39,7 @@ Then edit a directory.
 
 ``` kak
 define-command -hidden edit-directory-fd -params 0..1 %{
-  edit-directory-display 'fd' %arg(1)
+  edit-directory-display "fd %sh(test $kak_opt_edit_directory_show_hidden = true && echo --hidden)" %arg(1)
 }
 
 hook global WinSetOption filetype=directory %{
