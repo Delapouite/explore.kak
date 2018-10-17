@@ -35,6 +35,8 @@ Then edit a directory.
 
 ## Configuration
 
+### [rg]
+
 ``` kak
 define-command -hidden edit-directory-rg -params 0..1 %{
   edit-directory-display 'rg --files' %arg(1)
@@ -76,6 +78,7 @@ Similar extensions:
 [Documentation]: #commands
 [Contributing]: CONTRIBUTING
 [Pathogen]: https://github.com/alexherbo2/pathogen.kak
+[rg]: https://github.com/BurntSushi/ripgrep
 [TeddyDD]: https://github.com/TeddyDD
 [kakoune-edit-or-dir]: https://github.com/TeddyDD/kakoune-edit-or-dir
 [occivink]: https://github.com/occivink
