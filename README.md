@@ -18,13 +18,11 @@ pathogen-infect /home/user/repositories/github.com/alexherbo2/explore.kak
 
 ## Usage
 
-``` kak
-hook global WinCreate .* %{
-  explore-enable
-}
-```
+Edit a directory:
 
-Then edit a directory.
+``` kak
+edit .
+```
 
 - Use <kbd>Return</kbd> to edit files (works with multiple selections).
 - Use <kbd>Backspace</kbd> to edit parent directory.
@@ -47,16 +45,9 @@ hook global WinSetOption filetype=directory %{
 }
 ```
 
-## Commands
-
-- `explore-enable`: Enable editing directories
-- `explore-disable`: Disable editing directories
-- `explore-toggle`: Toggle editing directories
-
 ## Options
 
 - `explore_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
-- `explore_enabled` `bool`: Whether extension is active (Read-only)
 
 ## Faces
 

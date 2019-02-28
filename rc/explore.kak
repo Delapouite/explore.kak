@@ -1,5 +1,4 @@
 declare-option -docstring 'Whether to show hidden files' bool explore_show_hidden no
-declare-option -docstring 'Whether extension is active' bool explore_enabled no
 
 declare-option -hidden str explore
 declare-option -hidden int explore_file_count
@@ -102,7 +101,7 @@ hook global WinSetOption filetype=(?!directory).* %{
   remove-highlighter window/directory
 }
 
-define-command explore-enable -docstring 'Enable editing directories' %{
+define-command -hidden explore-enable %{
   hook window -group explore RuntimeError '\d+:\d+: ''\w+'' (.+): is a directory' %{
     # Hide error message
     echo
@@ -113,18 +112,8 @@ define-command explore-enable -docstring 'Enable editing directories' %{
     echo
     explore-smart %val(hook_param_capture_1)
   }
-  set-option window explore_enabled yes
 }
 
-define-command explore-disable -docstring 'Disable editing directories' %{
-  remove-hooks window explore
-  set-option window explore_enabled no
+hook -group explore global WinCreate .* %{
+  explore-enable
 }
-
-define-command explore-toggle -docstring 'Toggle editing directories' %{ evaluate-commands %sh{
-  if $kak_opt_explore_enabled = true; then
-    echo explore-disable
-  else
-    echo explore-enable
-  fi
-}}
