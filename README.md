@@ -36,18 +36,18 @@ edit .
 ### [fd]
 
 ``` kak
-define-command -hidden explore-fd -params 0..1 %{
-  explore-display "fd %sh(test $kak_opt_explore_show_hidden = true && echo --hidden)" %arg(1)
+define-command -hidden explore-files-fd -params 0..1 %{
+  explore-files-display "fd %sh(test $kak_opt_explore_files_show_hidden = true && echo --hidden)" %arg(1)
 }
 
 hook global WinSetOption filetype=directory %{
-  map window normal R ':<space>explore-fd %val(bufname)<ret>'
+  map window normal R ':<space>explore-files-fd %val(bufname)<ret>'
 }
 ```
 
 ## Options
 
-- `explore_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
+- `explore_files_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
 
 ## Faces
 
