@@ -36,12 +36,8 @@ edit .
 ### [fd]
 
 ``` kak
-define-command -hidden explore-files-fd -params 0..1 %{
+define-command -hidden -override explore-files-recursive -params 0..1 %{
   explore-files-display "fd %sh(test $kak_opt_explore_files_show_hidden = true && echo --hidden)" %arg(1)
-}
-
-hook global WinSetOption filetype=directory %{
-  map window normal R ':<space>explore-files-fd %val(bufname)<ret>'
 }
 ```
 
