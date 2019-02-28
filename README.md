@@ -4,7 +4,7 @@
 
 ###### [Usage] | [Documentation] | [Contributing]
 
-> A file explorer for [Kakoune].
+> A file and buffer explorer for [Kakoune].
 
 ![Demo]
 
@@ -31,6 +31,15 @@ edit .
 - Use <kbd>q</kbd> to change directory and quit.
 - Use <kbd>Escape</kbd> to close buffer.
 
+Start exploring buffers by using the `buffer` command with no argument.
+
+``` kak
+buffer
+```
+
+- Use <kbd>Return</kbd> to edit selected buffer.
+- Use <kbd>q</kbd> or <kbd>Escape</kbd> to quit.
+
 ## Configuration
 
 ### [fd]
@@ -49,6 +58,7 @@ define-command -hidden -override explore-files-recursive -params 0..1 %{
 
 - `ExploreFiles` `magenta,default`: Face used to show files
 - `ExploreDirectories` `cyan,default`: Face used to show directories
+- `ExploreBuffers` `yellow,default`: Face used to show buffers
 
 ## Credits
 
