@@ -41,11 +41,11 @@ define-command -hidden explore-smart -params 0..1 %{ evaluate-commands %sh{
   echo "$edit %($file)"
 }}
 
-define-command -hidden explore -params 0..1 -docstring 'Edit directory entries' %{
+define-command -hidden explore -params 0..1 -docstring 'Explore directory entries' %{
   explore-display "ls --dereference --group-directories-first --indicator-style=slash %sh(test $kak_opt_explore_show_hidden = true && echo --almost-all)" %arg(1)
 }
 
-define-command -hidden explore-recursive -params 0..1 -docstring 'Edit directory entries recursively' %{
+define-command -hidden explore-recursive -params 0..1 -docstring 'Explore directory entries recursively' %{
   explore-display "find %sh(test $kak_opt_explore_show_hidden = false && echo -not -path ""'*/.*'"")" %arg(1)
 }
 
@@ -64,7 +64,7 @@ define-command -hidden explore-forward -docstring 'Edit selected files' %{
   }
 }
 
-define-command -hidden explore-back -docstring 'Edit parent directory' %{
+define-command -hidden explore-back -docstring 'Explore parent directory' %{
   set-option current explore %val(bufname)
   explore "%opt(explore)/.."
   delete-buffer %opt(explore)
