@@ -95,10 +95,9 @@ hook global WinSetOption filetype=directory %{
   map window normal R ':<space>explore-recursive %val(bufname)<ret>'
   map window normal q ':<space>explore-change-directory<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
-}
-
-hook global WinSetOption filetype=(?!directory).* %{
-  remove-highlighter window/directory
+  hook -always -once window WinSetOption filetype=.* %{
+    remove-highlighter window/directory
+  }
 }
 
 define-command -hidden explore-enable %{
