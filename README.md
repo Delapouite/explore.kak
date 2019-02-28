@@ -1,4 +1,4 @@
-# Edit directory
+# Explore
 
 [![IRC Badge]][IRC]
 
@@ -13,14 +13,14 @@
 ### [Pathogen]
 
 ``` kak
-pathogen-infect /home/user/repositories/github.com/alexherbo2/edit-directory.kak
+pathogen-infect /home/user/repositories/github.com/alexherbo2/explore.kak
 ```
 
 ## Usage
 
 ``` kak
 hook global WinCreate .* %{
-  edit-directory-enable
+  explore-enable
 }
 ```
 
@@ -38,30 +38,30 @@ Then edit a directory.
 ### [fd]
 
 ``` kak
-define-command -hidden edit-directory-fd -params 0..1 %{
-  edit-directory-display "fd %sh(test $kak_opt_edit_directory_show_hidden = true && echo --hidden)" %arg(1)
+define-command -hidden explore-fd -params 0..1 %{
+  explore-display "fd %sh(test $kak_opt_explore_show_hidden = true && echo --hidden)" %arg(1)
 }
 
 hook global WinSetOption filetype=directory %{
-  map window normal R ':<space>edit-directory-fd %val(bufname)<ret>'
+  map window normal R ':<space>explore-fd %val(bufname)<ret>'
 }
 ```
 
 ## Commands
 
-- `edit-directory-enable`: Enable editing directories
-- `edit-directory-disable`: Disable editing directories
-- `edit-directory-toggle`: Toggle editing directories
+- `explore-enable`: Enable editing directories
+- `explore-disable`: Disable editing directories
+- `explore-toggle`: Toggle editing directories
 
 ## Options
 
-- `edit_directory_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
-- `edit_directory_enabled` `bool`: Whether extension is active (Read-only)
+- `explore_show_hidden` `bool`: Whether to show hidden files (Default: `no`)
+- `explore_enabled` `bool`: Whether extension is active (Read-only)
 
 ## Faces
 
-- `EditDirectoryFiles` `magenta,default`: Face used to show files
-- `EditDirectoryDirectories` `cyan,default`: Face used to show directories
+- `ExploreFiles` `magenta,default`: Face used to show files
+- `ExploreDirectories` `cyan,default`: Face used to show directories
 
 ## Credits
 
