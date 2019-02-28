@@ -29,7 +29,7 @@ edit .
 - Use <kbd>.</kbd> to show hidden files.
 - Use <kbd>R</kbd> to show directory entries recursively.
 - Use <kbd>q</kbd> to change directory and quit.
-- Use <kbd>Escape</kbd> to close buffer.
+- Use <kbd>Escape</kbd> to quit.
 
 Start exploring buffers by using the `buffer` command with no argument.
 
