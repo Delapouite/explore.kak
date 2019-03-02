@@ -101,7 +101,7 @@ hook global WinSetOption filetype=directory %{
 }
 
 define-command -hidden explore-files-enable %{
-  hook window -group explore-files RuntimeError '\d+:\d+: ''\w+'' (.+): is a directory' %{
+  hook window -group explore-files RuntimeError '\d+:\d+: ''(?:edit|e)'' (.+): is a directory' %{
     # Hide error message
     echo
     explore-files %val(hook_param_capture_1)
