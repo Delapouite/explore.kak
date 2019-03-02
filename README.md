@@ -20,9 +20,11 @@ pathogen-infect /home/user/repositories/github.com/alexherbo2/explore.kak
 
 Edit a directory:
 
-``` kak
-edit .
 ```
+edit [directory]
+```
+
+With no argument, edit the parent directory of the current buffer.
 
 - Use <kbd>Return</kbd> to edit files (works with multiple selections).
 - Use <kbd>Backspace</kbd> to edit parent directory.
@@ -40,6 +42,7 @@ map global normal b ':<space>buffer<ret>'
 ```
 
 - Use <kbd>Return</kbd> to edit selected buffer.
+- Use <kbd>e</kbd> to explore the parent directory of the selected buffer.
 - Use <kbd>q</kbd> or <kbd>Escape</kbd> to quit.
 
 ## Configuration

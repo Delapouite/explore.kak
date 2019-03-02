@@ -104,6 +104,9 @@ hook global WinSetOption filetype=directory %{
 }
 
 define-command -hidden explore-files-enable %{
+  hook window -group explore-files RuntimeError '\d+:\d+: ''(?:edit|e)'' wrong argument count' %{
+    explore-files %sh(dirname "$kak_buffile")
+  }
   hook window -group explore-files RuntimeError '\d+:\d+: ''(?:edit|e)'' (.+): is a directory' %{
     # Hide error message
     echo

@@ -16,6 +16,11 @@ define-command -hidden explore-buffers -docstring 'Explore buffers' %{ evaluate-
   execute-keys n
 }}
 
+define-command -hidden explore-buffers-parent -docstring 'Explore the parent directory of the selected buffer' %{
+  explore-buffers-validate
+  explore-files %sh(dirname "$kak_buffile")
+}
+
 define-command -hidden explore-buffers-validate -docstring 'Edit selected buffer' %{
   execute-keys '<space><a-x>_'
   buffer %reg(.)
@@ -25,6 +30,7 @@ define-command -hidden explore-buffers-validate -docstring 'Edit selected buffer
 hook global WinSetOption filetype=buffers %{
   add-highlighter window/ ref buffers
   map window normal <ret> ':<space>explore-buffers-validate<ret>'
+  map window normal e ':<space>explore-buffers-parent<ret>'
   map window normal q ':<space>delete-buffer<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
   hook -always -once window WinSetOption filetype=.* %{
