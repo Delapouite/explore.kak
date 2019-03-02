@@ -116,3 +116,14 @@ define-command -hidden explore-files-enable %{
 hook -group explore-files global WinCreate .* %{
   explore-files-enable
 }
+
+hook -group explore-files global KakBegin .* %{ hook -once global WinCreate .* %{ hook -once global NormalIdle '' %{
+  try %{ evaluate-commands -draft -save-regs '/' %{
+    buffer *debug*
+    set-register / 'error while opening file ''(.+?)'':\n\h+(.+?): is a directory'
+    execute-keys '%1s<ret>'
+    evaluate-commands -draft -itersel %{
+      evaluate-commands -client %val(client) explore-files %reg(.)
+    }
+  }}
+}}}
