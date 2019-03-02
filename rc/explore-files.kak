@@ -29,9 +29,12 @@ define-command -hidden explore-files-display -params 1..2 %{ evaluate-commands %
         set-register / %(\b\Q$last_buffer_name\E\b)
         try %(execute-keys n)
       }
+      # Information
       echo -markup {Information} %(Showing $name/ entries)
     }
     hook -always -once buffer BufCloseFifo '' %(nop %sh(rm --recursive $out))
+    # Information
+    echo -markup {Information} %(Showing $name/ entries)
   "
 }}
 
