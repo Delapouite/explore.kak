@@ -18,6 +18,8 @@ pathogen-infect /home/user/repositories/github.com/alexherbo2/explore.kak
 
 ## Usage
 
+### Files
+
 Edit a directory:
 
 ```
@@ -32,6 +34,8 @@ With no argument, edit the parent directory of the current buffer.
 - Use <kbd>R</kbd> to show directory entries recursively.
 - Use <kbd>q</kbd> to change directory and quit.
 - Use <kbd>Escape</kbd> to quit.
+
+### Buffers
 
 Start exploring buffers by using the `buffer` command with no argument.
 
