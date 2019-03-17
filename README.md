@@ -46,7 +46,7 @@ map global normal b ':<space>buffer<ret>'
 ```
 
 - Use <kbd>Return</kbd> to edit selected buffer.
-- Use <kbd>e</kbd> to explore the parent directory of the selected buffer.
+- Use <kbd>Backspace</kbd> to explore the parent directory of the selected buffer.
 - Use <kbd>q</kbd> or <kbd>Escape</kbd> to quit.
 
 ## Configuration

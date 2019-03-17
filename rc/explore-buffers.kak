@@ -30,7 +30,7 @@ define-command -hidden explore-buffers-validate -docstring 'Edit selected buffer
 hook global WinSetOption filetype=buffers %{
   add-highlighter window/ ref buffers
   map window normal <ret> ':<space>explore-buffers-validate<ret>'
-  map window normal e ':<space>explore-buffers-parent<ret>'
+  map window normal <backspace> ':<space>explore-buffers-parent<ret>'
   map window normal q ':<space>delete-buffer<ret>'
   map window normal <esc> ':<space>delete-buffer<ret>'
   hook -always -once window WinSetOption filetype=.* %{
