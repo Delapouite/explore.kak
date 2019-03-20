@@ -56,8 +56,9 @@ define-command -hidden explore-files-forward -docstring 'Edit selected files' %{
   set-option current explore_files %val(bufname)
   execute-keys '<a-s>;<a-x>_'
   set-option current explore_files_count %sh(count() { echo $#; }; count $kak_selections_desc)
-  evaluate-commands -draft -itersel %{
-    evaluate-commands -client %val(client) explore-files-smart "%val(bufname)/%reg(.)"
+  evaluate-commands -draft -itersel -save-regs 'F' %{
+    set-register F "%val(bufname)/%reg(.)"
+    evaluate-commands -client %val(client) %(explore-files-smart %reg(F))
   }
   delete-buffer %opt(explore_files)
   evaluate-commands %sh{
